@@ -11,8 +11,17 @@ function [decoded_path] = decode_path(path, lines, cols)
     # cat timp drumul nu este gata
     while ~empty(path)
       position = bottom_element(path);
-      position_line = fix(position / (lines + 1)) + 1;
-      position_cols = position - lines * (position_line - 1);
+
+      # daca avem rest trece pe linia urmatoare
+      if mod(position, cols)
+        position_line = fix(position / cols) + 1;
+        position_cols = mod(position, cols);
+      else
+        position_line = fix(position / cols);
+        position_cols = cols;
+      endif
+
+##      position_cols = position - lines * (position_line - 1);
       path = pop_front(path);
       decoded_path = push_coord(decoded_path, position_line, position_cols);
     endwhile
