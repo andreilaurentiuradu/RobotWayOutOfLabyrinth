@@ -1,32 +1,38 @@
 function [Labyrinth] = parse_labyrinth (file_path)
-  % deschide fisierul pentru citire
+
+  % deschidem fisierul pentru citire
   file = fopen(file_path, 'r');
 
-  % citeste dimensiunile labirintului (m, n)
+  % citim dimensiunile labirintului (m, n)
   dimensions = fscanf(file, '%d %d', [1, 2]);
   m = dimensions(1)
   n = dimensions(2)
 
-  %initializeaza matricea rara
+  % initializam matricea rara
   Labyrinth = sparse(m, n);
 
-  %citeste restul fisierului si completeaza matricea
+  % initializam nr de linii ale matricii
   row = 1;
 
-  %scapam de enter
+  % scapam de enter
   fgets(file);
+
+  % citim restul fisierului si completam matricea
   while ~feof(file)
-    % citeste o linie
+
+    % citim o linie
     line = fgets(file)
 
-    %extrage valorile
+    % extragem valorile
     values = sscanf(line, '%d')
 
-    %adauga valorile in matrice
+    % adaugam valorile in matrice
     Labyrinth(row, :) = values;
+
+    % incrementam numarul de linii
     row++;
   endwhile
 
-  %inchide fisierul
+  % inchidem fisierul
   fclose(file);
 endfunction
